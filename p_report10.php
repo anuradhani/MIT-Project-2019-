@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Preport10</title>
+
+        <?php
+        session_start();
+        $stureg = $_SESSION['resgistrationNo'];
+        
+        if($_SESSION['type']!='3'){
+             header("Location: logout.php");
+        }
+        include './include/header.php';
+        include './model/issubmitted.php';
+        $pageNo = 10004;
+        ?>
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <?php
+            include './include/sidebar.php';
+            ?>
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <?php
+                    include './include/topbar.php';
+                    ?>
+
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-left justify-content-between mb-3">
+                            <h1 class="h3 mb-0 text-gray-800">Progress Report 10-Submission</h1>
+                            <a href="submissionlist.php"class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Back </a>
+                        </div>
+
+                        <!-- Content Row -->
+
+                        <div class="row">
+
+                            <div class="card shadow mb-2">
+                                <div class="card-header py-2">
+                                    <h6 class="m-0 font-weight-bold text-primary">Submission Status</h6>
+                                </div>
+                               <div class="card-body">
+                                    <div class="table-responsive"></div>
+                                    <?php
+                                    $result = ispr10submitted($stureg);
+                                    if ($result) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            extract($row);
+                                            $count1 = $count;
+                                            ?>
+                                            <table class="table" width="100%" cellspacing="0">
+                                               
+                                                <tbody>
+                                                  
+                                                    <tr>
+                                                        <td>Submission Date:</td>
+                                                        <td> <?php echo $Sub_Date; ?>        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Submission comments:</td>
+                                                        <td>              </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row"> 
+                            <!--<div class="row">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary"> Submission Status</h5>
+                            <!-- <br>
+                             <textarea rows="6" cols="100"name="comment" form="usrform" placeholder="Enter text here..."></textarea>
+                         </div>
+                     </div> -->
+                            <br>
+
+                            <form action="./model/preport10model.php" method="post" enctype="multipart/form-data" align="center">     
+                                Select File to Upload:
+                                <input type="file" name="fileToUpload" id="fileToUpload">
+                                <input type="submit" value="Upload File" name="submit" <?php if($count1>0){ echo 'disabled';} ?>>
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- End of Main Content -->
+                    <br>
+                    <!-- Footer -->
+                   <br>
+                    <?php
+                    include './include/copyright.php';
+                    ?>
+                    <!-- End of Footer -->
+
+                </div>
+                <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <div>
+                <?php
+                include './include/logoutmodel.php';
+                ?>
+
+            </div>
+
+    </body>
+
+    <?php
+    include './include/footer.php';
+    ?>
+
+</html>
